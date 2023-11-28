@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 
 class UserRegisterForm(UserCreationForm):
-    email = forms.EmailField(label = 'Email address', help_text = 'Your SHU email address.')
+    email = forms.EmailField(label = 'Email address')
     Birthday = forms.DateField(label= 'Birthday')
     Address = forms.CharField(label= 'Address')
     City = forms.CharField(label= 'City')

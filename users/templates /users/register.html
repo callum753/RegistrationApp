@@ -4,7 +4,7 @@
 <div class="content-section">
     <form method="POST">
     {% csrf_token %}
-    fieldset class="form-group">
+    <fieldset class="form-group">
         <legend class="border-bottom mb-4">Module Regisration
         Form</legend>
         {{ form.as_p }}
@@ -19,4 +19,4 @@
                 class="ml-2" href="#">Login</a></small>
             </div>
 </div>
-                {% endblock content %}
+{% endblock content %}
