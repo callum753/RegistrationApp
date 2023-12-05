@@ -1,0 +1,16 @@
+{% extends "ModuleRegisrationSystem/base.html" %}
+{% block content %}
+
+    <h1>Welcome to the Module Regisration System - modules</h1>
+{% for Module in modules %}
+    <article class="media content-section">
+        <div class="media-body">
+        <div class="article-metadata">
+            <a class="mr-2" href="#">{{  Module.author.profile}}</a>
+            <small class="text-muted">{{ Module.Code }}</small>
+    </div>
+    <h2><a class="article-title" href="#">{{ Module }}</a></h2>
+    <p class="article-content">{{ Module.details }}</p>
+    </div>
+    </article>
+{% endfor %}
