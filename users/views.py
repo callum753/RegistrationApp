@@ -3,18 +3,25 @@ from django.contrib import messages
 from .forms import UserRegisterForm
 from django.contrib.auth.decorators import login_required
 from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
+from django.contrib.auth.models import Group
 
 def register(request):
     if request.method == 'POST':
         form = UserRegisterForm(request.POST)
         if form.is_valid():
-            form.save()
-            username = form.cleaned_data.get('username')
+            user=form.save()
+            course = form.cleaned_data.get('group')
+
+            course = Group.objects.get(id = course.id) 
+            user.groups.add(course)
+            #username = form.cleaned_data.get('username')
             messages.success(request, f'Your account has been created! Now you can login!')
             return redirect('login')
         else:
             messages.warning(request, 'Unable to create account!')
-        return redirect('ModuleRegisrationSystem:home')
+            messages.warning(request, f'user) from Errors; {form.errors}')
+        context ={'form' : form, 'errors': form.errors} 
+        return render(request, 'users/register.html', context)
     else:
         form = UserRegisterForm()
         return render(request, 'users/register.html', {'form': form , 'title': 'Module Registration'})
