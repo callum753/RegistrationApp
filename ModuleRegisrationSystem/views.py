@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from .models import Module
 from django.views.generic import ListView, DetailView
+#from django.contrib.auth.decorators import login_required, user_passes_test
 
 def home(request):
     return render(request, 'ModuleRegisrationSystem/home.html', {'title':'Welcome'})
@@ -27,6 +28,15 @@ class PostListView(ListView):
 
 class PostDetailView(DetailView):
     model = Module
+
+
+
+
+    
+
+
+
+
 
 
 

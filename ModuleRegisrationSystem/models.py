@@ -1,6 +1,7 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User 
 from django.utils import timezone
+from django.contrib.auth.models import Group
 
 class course(models.Model):
     name = models.CharField(max_length= 30 , primary_key= 'name')
@@ -20,11 +21,16 @@ class Module(models.Model):
     Category = models.CharField(max_length = 100)
     details = models.TextField()
     Availbity = models.CharField(max_length= 100, choices= [('yes', 'yes'), ('no', 'no')],default= 'yes')
-    courses = models.ManyToManyField(course,related_name= 'modules')
+    Groups = models.ManyToManyField(Group,related_name= 'modules')
 
 
     
     def __str__(self):
         return f'{self.Name}'
+    
+    #class Registration(models.Model):
+        #student = models.ForeignKey(user,null= True, related_name= 'studentregistrations', on_delete= models.CASCADE)
+        #model = models.ForeignKey(Module, null = True, related_name= 'moduleregistrations', on_delete= models.CASCADE)
+
 
 # Create your models here.
