@@ -28,9 +28,13 @@ class Module(models.Model):
     def __str__(self):
         return f'{self.Name}'
     
-    #class Registration(models.Model):
-        #student = models.ForeignKey(user,null= True, related_name= 'studentregistrations', on_delete= models.CASCADE)
-        #model = models.ForeignKey(Module, null = True, related_name= 'moduleregistrations', on_delete= models.CASCADE)
+class Registration(models.Model):
+    student = models.ForeignKey(User,null= True, related_name= 'student', on_delete= models.CASCADE)
+    module = models.ForeignKey(Module, null = True, related_name= 'module', on_delete= models.CASCADE)
+    dOfRegistration = models.DateField(default = timezone.now)
+
+    def __str__(self):
+        return f'{self.student} is assigned to {self.module}'
 
 
 # Create your models here.

@@ -3,9 +3,6 @@
 
     <h1>Welcome to the Module Regisration System - modules</h1>
 
-{% for course in modules.courses.all %}
-    {{ course.name}}
-{% endfor %}
 {% for Module in modules %}
     <article class="media content-section">
         <div class="media-body">
@@ -15,6 +12,10 @@
     </div>
     <h2><a class="article-title" href="#">{{ Module }}</a></h2>
     <p class="article-content">{{ Module.details }}</p>
+    {% for course in modules.courses.all %}
+    {{ course.name}}
+        { % endfor %}
+
     </div>
     </article>
 {% endfor %}
