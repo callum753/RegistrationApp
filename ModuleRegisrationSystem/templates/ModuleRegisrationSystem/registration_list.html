@@ -1,0 +1,16 @@
+{% extends "ModuleRegisrationSystem/base.html" %}
+{% block content %}
+
+    <h1>My Registrations</h1>
+
+<ul>
+{% for registration in registrations %}
+
+    <li>{{ registration.module }} 
+    <br>
+    {{ registration.module.Code }}
+    </li>
+
+{% endfor %}
+</ul>
+{% endblock content %}

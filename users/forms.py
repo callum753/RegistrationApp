@@ -28,5 +28,11 @@ class ProfileUpdateForm(forms.ModelForm):
         fields = ['birthday' , 'address' , 'city' , 'town' , 'country', 'image']
 
 
+# Create your forms here.
+
+
+
+
+
 
 

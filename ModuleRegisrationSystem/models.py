@@ -31,7 +31,7 @@ class Module(models.Model):
 class Registration(models.Model):
     student = models.ForeignKey(User,null= True, related_name= 'student', on_delete= models.CASCADE)
     module = models.ForeignKey(Module, null = True, related_name= 'module', on_delete= models.CASCADE)
-    dOfRegistration = models.DateField(default = timezone.now)
+    dOfRegistration = models.DateField(auto_now_add=True)
 
     def __str__(self):
         return f'{self.student} is assigned to {self.module}'

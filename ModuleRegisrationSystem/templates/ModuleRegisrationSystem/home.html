@@ -36,6 +36,7 @@
                         <a class="nav-item nav-link" href="{% url 'profile' %}">Profile</a>
                         <a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a>
                         {% else %}
+                            <a class="nav-item nav-link" href="{% url 'ModuleRegisrationSystem:modulesregisration'}"
                             <a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
                     <a class="nav-item nav-link" href="{% url 'register'%}">Register</a>
                             {% endif %}
@@ -59,10 +60,9 @@
                     <h3>General Information</h3>
                     <p class='text-muted'>these are the courses we are offering
                       <ul class="list-group">
-                        <li class="list-group-item list-group-item-light">Software Devlopment </li>
-                        <li class="list-group-item list-group-item-light">computer science</li>
-                        <li class="list-group-item list-group-item-light">smart computing </li>
-                        <li class="list-group-item list-group-item-light">Upcoming Events</li>
+                        {% for course in courses.all %}
+                            <li class="list-group-item list-group-item-light"><a href="{% url 'course' course.id %}">{{ course.name }}</a></li>
+                        {% endfor %}
                       </ul>
                     </p>
                   </div>

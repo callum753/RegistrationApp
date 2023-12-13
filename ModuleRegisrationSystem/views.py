@@ -1,10 +1,20 @@
-from django.shortcuts import render
-from .models import Module
-from django.views.generic import ListView, DetailView
+from typing import Any
+from django.db.models.query import QuerySet
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required
+from .models import Module, User
+from django.views.generic import ListView, DetailView , CreateView
+from django.contrib.auth.models import Group
+from django.contrib import messages
+from .models import Registration
+from .forms import ModuleRegistrationForm
+
 #from django.contrib.auth.decorators import login_required, user_passes_test
 
 def home(request):
-    return render(request, 'ModuleRegisrationSystem/home.html', {'title':'Welcome'})
+    context = {'courses': Group.objects.all(), 'title': 'Welcome'}
+    return render(request, 'ModuleRegisrationSystem/home.html', context)
+
 def about(request):
     return render(request, 'ModuleRegisrationSystem/about.html', {'title':'About us'})
 def contact(request):
@@ -14,7 +24,8 @@ def modules(request):
     return render(request, 'ModuleRegisrationSystem/modules.html', daily_report)
 
 
-    
+class CourseDetailView(DetailView):
+    model = Group
 
 
 # Create your views here.
@@ -28,6 +39,45 @@ class PostListView(ListView):
 
 class PostDetailView(DetailView):
     model = Module
+
+#@login_required
+def module_registration(request, pk, course):
+    module = get_object_or_404(Module, pk=pk)
+    if request.method == "POST":
+        form = ModuleRegistrationForm(request.POST)
+        if form.is_valid():
+            reg = form.save(commit=False)
+            reg.module = module
+            reg.student = request.user
+
+            reg.save()
+            messages.success(request, "You Have Registered")
+
+            #return redirect('ModuleRegisrationSystem:modules', pk=module.id)
+            return redirect('course', pk=course)
+        else:
+            messages.warning(request, "Unable to Register")
+            print(f"Forn Errors: {form.errors}")
+    else:
+        form = ModuleRegistrationForm
+
+    #return redirect('ModuleRegisrationSystem:modules', pk=module.id)
+    return redirect('course', pk=course)   
+
+
+
+
+class StudentRegistration(ListView):
+    model = Registration
+    #template_name = "ModuleRegisrationSystem:student-registrations.html"
+    context_object_name = "registrations"
+
+    def get_queryset(self):
+        user = get_object_or_404(User, username = self.request.user)
+        return Registration.objects.filter(student=user).order_by('module__Name')
+
+
+
 
 
 

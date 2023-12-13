@@ -1,33 +1,38 @@
 {% extends "ModuleRegisrationSystem/base.html" %}
-{% load crispy_forms_tags %}
 {% block content %}
+{% load crispy_forms_tags %}
 
-    <h1>Welcome to the Module Regisration System - modules</h1>
+    <h1>{{ group.name }}</h1>
 
-{% for module in modules %}
+    {% for module in group.modules.all %}
     <article class="media content-section">
         <div class="media-body">
         <div class="article-metadata">
-            <a class ="mr-2"> courses allowed to register</a>
             <small class="text-muted">{{ module.Code }}</small>
     </div>
     <h2><a class="article-title" href="#">{{ module }}</a></h2>
     <p class="article-content">{{ module.details }}</p>
 
-    
+    <div class="content-section">
+        <form method="POST" action="{% url 'ModuleRegisrationSystem:module-registration' module.id group.id %}">
+        {% csrf_token %}
+        <fieldset class="form-group">
+            <legend class="border-bottom mb-4">
+                register for this Module
+            </legend>
+           {{ form | crispy }}
+        </fieldset>
+        <div class="form-group">
+                <button class="btn btn-outline-info" type="submit">
+                    Register
+                </button>
+            </div>
+        </form>
 
-    
 
-    
+    {% endfor %}
 
-
-    </div>
-    </article>
-{% endfor %}
-
-
-
-{% if is_paginated %}
+    {% if is_paginated %}
 {% if page_obj.has_previous %}
 <a class="btn btn-outline-info mb-4"
 href="?page=1">First</a>
@@ -51,4 +56,9 @@ href="?page={{page_obj.next_page_number}}">Next</a>
 href="?page={{page_obj.paginator.num_pages}}">Last</a>
 {% endif %}
 {% endif %}
-{% endblock %}
+
+
+
+    
+
+{% endblock content %}
