@@ -22,6 +22,10 @@ def contact(request):
 def modules(request):
     daily_report = {'Module': Module.objects.all(), 'title': 'Module'}
     return render(request, 'ModuleRegisrationSystem/modules.html', daily_report)
+def registration(request):
+    registration_list = Registration.objects.filter(student = request.user)
+    print(registration_list)
+    return render(request, 'ModuleRegisrationSystem/registration_list.html',{'title': 'My Registrations', 'registrations': registration_list})
 
 
 class CourseDetailView(DetailView):

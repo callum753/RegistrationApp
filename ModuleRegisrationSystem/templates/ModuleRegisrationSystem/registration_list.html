@@ -11,6 +11,15 @@
     {{ registration.module.Code }}
     </li>
 
+    <article class="media content-section">
+        <div class="media-body">
+        <div class="article-metadata">
+
+            <small class="text-muted">{{ registration.module.Code }}</small>
+    </div>
+    <h2><a class="article-title" href="#">{{ registration.module }}</a></h2>
+    <p class="article-content">{{ module.details }}</p>
+
 {% endfor %}
 </ul>
 {% endblock content %}

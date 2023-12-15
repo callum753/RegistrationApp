@@ -8,6 +8,7 @@ urlpatterns = [
 path('', views.home, name = 'home'),
 path('about', views.about, name='about'),
 path('contact', views.contact, name='contact' ),
+path('registration_list' , views.registration, name='registration'),
 path('modules', PostListView.as_view(), name = 'modules'),
 path('myregistration', StudentRegistration.as_view(), name='myregistration'),
 path('modules/<int:pk>', PostDetailView.as_view(), name ='module-detail'),
