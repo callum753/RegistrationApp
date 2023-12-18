@@ -6,11 +6,6 @@
 <ul>
 {% for registration in registrations %}
 
-    <li>{{ registration.module }} 
-    <br>
-    {{ registration.module.Code }}
-    </li>
-
     <article class="media content-section">
         <div class="media-body">
         <div class="article-metadata">
@@ -19,6 +14,11 @@
     </div>
     <h2><a class="article-title" href="#">{{ registration.module }}</a></h2>
     <p class="article-content">{{ module.details }}</p>
+
+    <form method="post" action="{% url 'ModuleRegisrationSystem:module-deregistration' registration.id %}">
+        {% csrf_token %}
+        <button type="submit" class="btn text-danger">Deregister for Module</button>
+    </form>
 
 {% endfor %}
 </ul>

@@ -68,6 +68,15 @@ def module_registration(request, pk, course):
     #return redirect('ModuleRegisrationSystem:modules', pk=module.id)
     return redirect('course', pk=course)   
 
+def module_deregistration(request,pk):
+    registration = get_object_or_404(Registration,pk=pk)
+
+    if request.user == registration.student:
+        registration.delete()
+        messages.success(request,f'Module Unregisred!')
+
+    return redirect('ModuleRegisrationSystem:myregistration')
+
 
 
 

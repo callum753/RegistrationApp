@@ -5,7 +5,7 @@ html {
   
   body {
     background: #fafafa;
-    color: #333333;
+    color: black;
     margin-top: 5rem;
     margin-bottom: 50px;
   }
@@ -16,7 +16,7 @@ html {
   h4,
   h5,
   h6 {
-    color: #444444;
+    color: black;
   }
   
   ul {
