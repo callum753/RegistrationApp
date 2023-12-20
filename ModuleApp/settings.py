@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,12 +21,18 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-kiu)@d#vy(z*st13rarsv4@3^47p&$b@*gd5lx%(@j3m89$#l2'
+#SECRET_KEY = 'django-insecure-kiu)@d#vy(z*st13rarsv4@3^47p&$b@*gd5lx%(@j3m89$#l2'
+
+WEBSITE_HOSTNAME = os.environ.get('WEBSITE_HOSTNAME', None)
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = WEBSITE_HOSTNAME == None
 
-ALLOWED_HOSTS = []
+if DEBUG:
+    ALLOWED_HOSTS = []
+else:
+    ALLOWED_HOSTS = [WEBSITE_HOSTNAME]
+    CSRF_TRUSTED_ORIGINS = [f'https://{WEBSITE_HOSTNAME}']
 
 
 # Application definition
@@ -41,6 +48,7 @@ INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'crispy_forms',
     'crispy_bootstrap4',
+    'storages',
 ]
 
 MIDDLEWARE = [
@@ -79,8 +87,14 @@ WSGI_APPLICATION = 'ModuleApp.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        #'ENGINE': 'django.db.backends.sqlite3',
+        #'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE':os.environ['AZURE_DB_ENGINE'],
+       	'NAME': os.environ['AZURE_DB_NAME'],
+       	'PORT': os.environ['AZURE_DB_PORT'],
+       	'HOST': os.environ['AZURE_DB_HOST'],
+        'USER': os.environ['AZURE_DB_USER'],
+        'PASSWORD': os.environ['AZURE_DB_PASSWORD'],
     }
 }
 
@@ -119,9 +133,30 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = 'static/'
-MEDIA_ROOT = BASE_DIR / 'media'
-MEDIA_URL = '/media/'
+#STATIC_URL = 'static/'
+#MEDIA_ROOT = BASE_DIR / 'media'
+#MEDIA_URL = '/media/'
+
+STORAGES = {
+    'default': {
+        "BACKEND": "storages.backends.azure_storage.AzureStorage",
+        "OPTIONS": {
+            "connection_string": "DefaultEndpointsProtocol=https;AccountName=c0013851dcbs;AccountKey=2zXe370Ddx/XMWP4M1f2XMYBs33kaqqS+E9+yMQGevqGNN8rzHbZZ3RFcwj8NS91440VNUmoqJ97+AStGAUWbA==;EndpointSuffix=core.windows.net",
+            "azure_container": "media"
+        },
+    },
+    "staticfiles": {
+        "BACKEND": "storages.backends.azure_storage.AzureStorage",
+        "OPTIONS": {
+            "connection_string": "DefaultEndpointsProtocol=https;AccountName=c0013851dcbs;AccountKey=2zXe370Ddx/XMWP4M1f2XMYBs33kaqqS+E9+yMQGevqGNN8rzHbZZ3RFcwj8NS91440VNUmoqJ97+AStGAUWbA==;EndpointSuffix=core.windows.net",
+            "azure_container": "static"
+        },
+    },
+}
+
+STATIC_URL = 'c0013851dcbs.blob.core.windows.net/static/'
+MEDIA_URL = 'c0013851dcbs.blob.core.windows.net/media/'
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -134,3 +169,12 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 LOGIN_REDIRECT_URL = 'ModuleRegisrationSystem:home'
 LOGIN_URL = 'login'
+
+SECRET_KEY = os.environ['SECRET_KEY']
+
+
+
+
+
+
+
